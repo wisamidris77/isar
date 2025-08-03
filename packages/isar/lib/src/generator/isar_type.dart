@@ -9,10 +9,10 @@ const TypeChecker _durationChecker = TypeChecker.fromRuntime(Duration);
 
 extension on DartType {
   bool get isDartCoreDateTime =>
-      element != null && _dateTimeChecker.isExactly(element!);
+      element3 != null && _dateTimeChecker.isExactly(element3!);
 
   bool get isDartCoreDuration =>
-      element != null && _durationChecker.isExactly(element!);
+      element3 != null && _durationChecker.isExactly(element3!);
 
   IsarType? get _primitiveIsarType {
     if (isDartCoreBool) {
@@ -35,7 +35,7 @@ extension on DartType {
       return IsarType.string;
     } else if (isDartCoreDateTime) {
       return IsarType.dateTime;
-    } else if (element!.embeddedAnnotation != null) {
+    } else if (element3!.embeddedAnnotation != null) {
       return IsarType.object;
     } else if (this is DynamicType) {
       return IsarType.json;

@@ -17,10 +17,11 @@ void main() {
 
         var error = '';
         try {
+          final readerWriter = TestReaderWriter(rootPackage: 'isar');
           await testBuilder(
             getIsarGenerator(BuilderOptions.empty),
             {'a|${file.path}': content.join('\n')},
-            reader: await PackageAssetReader.currentIsolate(),
+            readerWriter: readerWriter,
           );
         } on Exception catch (e) {
           error = e.toString();

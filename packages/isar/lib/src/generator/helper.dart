@@ -13,51 +13,56 @@ const TypeChecker _nameChecker = TypeChecker.fromRuntime(Name);
 const TypeChecker _indexChecker = TypeChecker.fromRuntime(Index);
 const TypeChecker _utcChecker = TypeChecker.fromRuntime(Utc);
 
-extension on ClassElement {
-  List<PropertyInducingElement> get allAccessors {
+extension on ClassElement2 {
+  List<PropertyInducingElement2> get allAccessors {
     final ignoreFields =
         collectionAnnotation?.ignore ?? embeddedAnnotation!.ignore;
     final allAccessorsMap = {
       if (collectionAnnotation?.inheritance ?? embeddedAnnotation!.inheritance)
         for (final supertype in allSupertypes) ...{
           if (!supertype.isDartCoreObject)
-            for (final accessor in supertype.accessors)
-              accessor.variable2!.name: accessor.variable2!,
+            for (final getter in supertype.getters)
+              getter.variable3!.name3!: getter.variable3!,
+          if (!supertype.isDartCoreObject)
+            for (final setter in supertype.setters)
+              setter.variable3!.name3!: setter.variable3!,
         },
-      for (final accessor in accessors)
-        accessor.variable2!.name: accessor.variable2!,
+      for (final getter in getters2)
+        getter.variable3!.name3!: getter.variable3!,
+      for (final setter in setters2)
+        setter.variable3!.name3!: setter.variable3!,
     };
     final allAccessors = allAccessorsMap.values.toList();
     final usableAccessors = allAccessors.where(
       (e) =>
           e.isPublic &&
           !e.isStatic &&
-          !_ignoreChecker.hasAnnotationOf(e.nonSynthetic) &&
-          !ignoreFields.contains(e.name) &&
-          e.name != 'hashCode',
+          !_ignoreChecker.hasAnnotationOf(e.nonSynthetic2) &&
+          !ignoreFields.contains(e.name3!) &&
+          e.name3! != 'hashCode',
     );
 
-    final uniqueAccessors = <String, PropertyInducingElement>{};
+    final uniqueAccessors = <String, PropertyInducingElement2>{};
     for (final accessor in usableAccessors) {
-      uniqueAccessors[accessor.name] = accessor;
+      uniqueAccessors[accessor.name3!] = accessor;
     }
     return uniqueAccessors.values.toList();
   }
 }
 
-extension on PropertyInducingElement {
+extension on PropertyInducingElement2 {
   bool get hasIdAnnotation {
-    final ann = _idChecker.firstAnnotationOfExact(nonSynthetic);
+    final ann = _idChecker.firstAnnotationOfExact(nonSynthetic2);
     return ann != null;
   }
 
   bool get hasUtcAnnotation {
-    final ann = _utcChecker.firstAnnotationOfExact(nonSynthetic);
+    final ann = _utcChecker.firstAnnotationOfExact(nonSynthetic2);
     return ann != null;
   }
 
   List<Index> get indexAnnotations {
-    return _indexChecker.annotationsOfExact(nonSynthetic).map((ann) {
+    return _indexChecker.annotationsOfExact(nonSynthetic2).map((ann) {
       return Index(
         name: ann.getField('name')!.toStringValue(),
         composite:
@@ -73,10 +78,10 @@ extension on PropertyInducingElement {
   }
 }
 
-extension on EnumElement {
-  FieldElement? get enumValueProperty {
+extension on EnumElement2 {
+  FieldElement2? get enumValueProperty {
     final annotatedProperties =
-        fields
+        fields2
             .where((e) => !e.isEnumConstant)
             .where(_enumPropertyChecker.hasAnnotationOfExact)
             .toList();
@@ -88,12 +93,12 @@ extension on EnumElement {
   }
 }
 
-extension on Element {
+extension on Element2 {
   String get isarName {
-    final ann = _nameChecker.firstAnnotationOfExact(nonSynthetic);
+    final ann = _nameChecker.firstAnnotationOfExact(nonSynthetic2);
     late String name;
     if (ann == null) {
-      name = this.name!;
+      name = this.name3!;
     } else {
       name = ann.getField('name')!.toStringValue()!;
     }
@@ -102,7 +107,7 @@ extension on Element {
   }
 
   Collection? get collectionAnnotation {
-    final ann = _collectionChecker.firstAnnotationOfExact(nonSynthetic);
+    final ann = _collectionChecker.firstAnnotationOfExact(nonSynthetic2);
     if (ann == null) {
       return null;
     }
@@ -133,7 +138,7 @@ extension on Element {
   }
 
   Embedded? get embeddedAnnotation {
-    final ann = _embeddedChecker.firstAnnotationOfExact(nonSynthetic);
+    final ann = _embeddedChecker.firstAnnotationOfExact(nonSynthetic2);
     if (ann == null) {
       return null;
     }
@@ -149,13 +154,13 @@ extension on Element {
   }
 }
 
-void _checkIsarName(String name, Element element) {
+void _checkIsarName(String name, Element2 element) {
   if (name.isEmpty || name.startsWith('_')) {
     _err('Names must not be blank or start with "_".', element);
   }
 }
 
-Never _err(String msg, [Element? element]) {
+Never _err(String msg, [Element2? element]) {
   throw InvalidGenerationSourceError(msg, element: element);
 }
 

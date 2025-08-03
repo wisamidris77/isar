@@ -23,7 +23,7 @@ const _ignoreLints = [
 class _IsarCollectionGenerator extends GeneratorForAnnotation<Collection> {
   @override
   Future<String> generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
@@ -67,7 +67,7 @@ class _IsarCollectionGenerator extends GeneratorForAnnotation<Collection> {
 class _IsarEmbeddedGenerator extends GeneratorForAnnotation<Embedded> {
   @override
   Future<String> generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
