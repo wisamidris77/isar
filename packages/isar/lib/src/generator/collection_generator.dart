@@ -30,6 +30,8 @@ class _IsarCollectionGenerator extends GeneratorForAnnotation<Collection> {
     final object = _IsarAnalyzer().analyzeCollection(element);
     final idType =
         object.idProperty!.type == IsarType.string ? 'String' : 'int';
+    final generationType = annotation.read('generationType').intValue;
+    final generationTypeFlags = CollectionGenerationType.values.where((e) => e & generationType != 0).toList();
     return '''
       // coverage:ignore-file
       // ignore_for_file: ${_ignoreLints.join(', ')}
@@ -51,15 +53,15 @@ class _IsarCollectionGenerator extends GeneratorForAnnotation<Collection> {
 
       ${_generateEnumMaps(object)}
 
-      ${_FilterGenerator(object).generate()}
+      ${generationTypeFlags.contains(CollectionGenerationType.filters) || generationTypeFlags.contains(CollectionGenerationType.all) ? _FilterGenerator(object).generate() : ''}
 
-      ${_generateQueryObjects(object)}
+      ${generationTypeFlags.contains(CollectionGenerationType.queryObjects) || generationTypeFlags.contains(CollectionGenerationType.all) ? _generateQueryObjects(object) : ''}
 
-      ${_generateSortBy(object)}
+      ${generationTypeFlags.contains(CollectionGenerationType.sortBy) || generationTypeFlags.contains(CollectionGenerationType.all) ? _generateSortBy(object) : ''}
 
-      ${_generateDistinctBy(object)}
+      ${generationTypeFlags.contains(CollectionGenerationType.distinctBy) || generationTypeFlags.contains(CollectionGenerationType.all) ? _generateDistinctBy(object) : ''}
       
-      ${_generatePropertyQuery(object)}
+      ${generationTypeFlags.contains(CollectionGenerationType.propertyQuery) || generationTypeFlags.contains(CollectionGenerationType.all) ? _generatePropertyQuery(object) : ''}
     ''';
   }
 }
@@ -72,6 +74,8 @@ class _IsarEmbeddedGenerator extends GeneratorForAnnotation<Embedded> {
     BuildStep buildStep,
   ) async {
     final object = _IsarAnalyzer().analyzeEmbedded(element);
+    final generationType = annotation.read('generationType').intValue;
+    final generationTypeFlags = EmbeddedGenerationType.values.where((e) => e & generationType != 0).toList();
     return '''
       // coverage:ignore-file
       // ignore_for_file: ${_ignoreLints.join(', ')}
@@ -85,9 +89,9 @@ class _IsarEmbeddedGenerator extends GeneratorForAnnotation<Embedded> {
 
       ${_generateEnumMaps(object)}
 
-      ${_FilterGenerator(object).generate()}
+      ${generationTypeFlags.contains(EmbeddedGenerationType.filters) || generationTypeFlags.contains(EmbeddedGenerationType.all) ? _FilterGenerator(object).generate() : ''}
 
-      ${_generateQueryObjects(object)}
+      ${generationTypeFlags.contains(EmbeddedGenerationType.queryObjects) || generationTypeFlags.contains(EmbeddedGenerationType.all) ? _generateQueryObjects(object) : ''}
     ''';
   }
 }

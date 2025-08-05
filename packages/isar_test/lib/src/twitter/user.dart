@@ -6,7 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
-@embedded
+@Embedded(generationType: EmbeddedGenerationType.filters | EmbeddedGenerationType.queryObjects)
 class User {
   User();
 

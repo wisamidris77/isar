@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'media.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
-@embedded
+@Embedded(generationType: EmbeddedGenerationType.all)
 class Media {
   Media();
 

@@ -21,7 +21,7 @@ dependencies:
   analyzer:
   build:
   ffi:
-  meta:
+  meta: ^1.16.0
   source_gen:
   web:
 
