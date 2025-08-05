@@ -39,7 +39,7 @@ const Set<String> _reservedSQLiteNames = {
   'DEFERRABLE',
   'DEFERRED',
   'DELETE',
-  'DESC',
+  //'DESC',
   'DETACH',
   'DISTINCT',
   'DO',
