@@ -89,7 +89,7 @@ const Set<String> _reservedSQLiteNames = {
   'MATCH',
   'MATERIALIZED',
   'NATURAL',
-  'NO',
+  //'NO',
   'NOT',
   'NOTHING',
   'NOTNULL',
